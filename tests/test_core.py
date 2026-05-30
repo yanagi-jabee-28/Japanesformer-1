@@ -100,5 +100,31 @@ class TestCoreTransform(unittest.TestCase):
         decrypted = transform(encrypted, shift=1, decrypt=True, use_wave=True)
         self.assertEqual(decrypted, original)
 
+    def test_alphanumeric_caesar(self):
+        """
+        英数字（A-Z, a-z, 0-9）が独立したシーザー暗号で処理され、
+        かつ position_counter を正しく進めることを検証します。
+        """
+        # "Candy 2026"
+        # C (idx 2, shift+0=1 -> D)
+        # a (idx 0, shift+1=2 -> c)
+        # n (idx 13, shift+2=3 -> q)
+        # d (idx 3, shift+3=4 -> h)
+        # y (idx 24, shift+4=5 -> d)
+        #   (space, transparent, shift+5 not incremented)
+        # 2 (idx 2, shift+5=6 -> 8)
+        # 0 (idx 0, shift+6=7 -> 7)
+        # 2 (idx 2, shift+7=8 -> 0)
+        # 6 (idx 6, shift+8=9 -> 5)
+        original = "Candy 2026"
+        expected_encrypted = "Dcqhd 8705"
+        
+        encrypted = transform(original, shift=1, decrypt=False, use_wave=True)
+        self.assertEqual(encrypted, expected_encrypted)
+        
+        decrypted = transform(encrypted, shift=1, decrypt=True, use_wave=True)
+        self.assertEqual(decrypted, original)
+
+
 if __name__ == "__main__":
     unittest.main()

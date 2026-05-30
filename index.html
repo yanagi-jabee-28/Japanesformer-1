@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Japanesformer - 可逆日本語暗号化</title>
-    <!-- Google Fonts の読み込み -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     
-    <!-- 📄 外部スタイルの読み込み（責務分離：スタイル） -->
     <link rel="stylesheet" href="assets/css/style.css">
     
-    <!-- Pyodide の CDN 読み込み -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
 </head>
 <body>
@@ -22,26 +19,22 @@
         <h1>Japanesformer</h1>
         <div class="subtitle">日本語の母音を固定したまま子音のみを循環させる可逆暗号</div>
 
-        <!-- 初期化ステータス表示 -->
         <div class="status-container">
             <div id="status-dot" class="status-dot loading"></div>
             <div id="status-text" class="status-text">Python 環境を起動中... (約10秒かかります)</div>
         </div>
 
-        <!-- 入力フォーム -->
         <div class="form-group">
             <label for="input-text">入力テキスト</label>
-            <textarea id="input-text" placeholder="ここに日本語テキストを入力してください...">きゃんでぃーちゅーんのこっちゃんがきすみーぱてぃしえをうたう</textarea>
+            <textarea id="input-text" placeholder="ここに日本語テキストまたは英数字を入力してください...">きゃんでぃーちゅーん (Candy Tune) のこっちゃんが、2026年もきすみーぱてぃしえを歌う！</textarea>
         </div>
 
         <div class="options-row">
-            <!-- シフト量指定 -->
             <div class="option-item">
                 <label for="shift-amount">シフト量 (base_shift):</label>
                 <input type="number" id="shift-amount" value="1" min="0" max="100" style="width: 80px; padding: 8px 12px; border-radius: 8px;">
             </div>
 
-            <!-- 波状変換トグル -->
             <div class="option-item">
                 <label class="switch">
                     <input type="checkbox" id="wave-toggle" checked>
@@ -51,7 +44,6 @@
             </div>
         </div>
 
-        <!-- 実行アクションボタン -->
         <div class="btn-group">
             <button id="btn-encrypt" class="btn-primary" disabled>
                 <span>🔒 暗号化 (変換)</span>
@@ -61,7 +53,6 @@
             </button>
         </div>
 
-        <!-- 出力表示 -->
         <div class="output-container">
             <div class="output-header">
                 <label>変換結果</label>
@@ -72,7 +63,6 @@
     </div>
 </div>
 
-<!-- 🛠 外部スクリプトの読み込み（責務分離：ロジック） -->
 <script type="module" src="assets/js/app.js"></script>
 
 </body>
