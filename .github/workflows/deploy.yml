@@ -1,11 +1,18 @@
-# GitHub Actions to build and deploy Japanesformer WebApp to GitHub Pages
+# GitHub Actions to build, test, and deploy Japanesformer WebApp to GitHub Pages
 name: Deploy Japanesformer WebApp
 
 on:
   push:
     branches:
-      - main  # トリガーとなるブランチ（main または master）
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
+
+# 全体の環境変数設定（モダンな Node.js 24 実行の強制）
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 # GitHub Pages デプロイに必要なパーミッション設定
 permissions:
@@ -16,10 +23,46 @@ permissions:
 # 同時実行の制御（古い実行をキャンセル）
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
+  # --------------------------------------------------------------------------
+  # 🧪 CI Job: 各種 Python バージョンでの単体テスト自動実行
+  # --------------------------------------------------------------------------
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip' # pip キャッシュの有効化による高速化
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # パッケージ自体を編集可能モードでインストールし、テストから解決可能にします
+          pip install -e .
+
+      - name: Run Test Suite
+        run: |
+          python -X utf8 -m unittest discover -s tests -p "test_*.py"
+
+  # --------------------------------------------------------------------------
+  # 🌐 CD Job: テスト成功後に実行されるデプロイ処理（main ブランチの push のみ）
+  # --------------------------------------------------------------------------
   build-and-deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -32,6 +75,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install Build Dependencies
         run: |
