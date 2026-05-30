@@ -4,11 +4,12 @@
 
 ---
 
-## 🌐 Webアプリで今すぐ遊ぶ
+## 🔗 関連リンク (URL集)
 
-スマートフォンやPCのブラウザから、インストール不要で今すぐ体験できます。
-
-👉 **[Japanesformer WebApp を起動する](https://yanagi-jabee-28.github.io/Japanesformer-1/)**
+- **Webアプリ公開デモ（今すぐ体験）**  
+  https://yanagi-jabee-28.github.io/Japanesformer-1/
+- **GitHub ソースコードリポジトリ**  
+  https://github.com/yanagi-jabee-28/Japanesformer-1
 
 ---
 
