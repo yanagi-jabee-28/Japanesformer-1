@@ -47,6 +47,8 @@ jobs:
           mkdir -p public
           # index.html をコピー
           cp index.html public/
+          # assets フォルダを再帰的にコピー
+          cp -r assets public/
           # ビルドされた wheel ファイルをコピー
           cp dist/*.whl public/
           # 確認のためのログ出力
