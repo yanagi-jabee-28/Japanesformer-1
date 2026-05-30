@@ -51,7 +51,7 @@ class JapanesformerGUI:
 
         self.input_text = tk.Text(input_group, height=6, wrap=tk.WORD, font=("Consolas", 11))
         self.input_text.pack(fill=tk.BOTH, expand=True)
-        self.input_text.insert(tk.END, "しんかんせんがはやい (漢字: 新幹線が速い)")
+        self.input_text.insert(tk.END, "きゃんでぃーちゅーんのこっちゃんがきすみーぱてぃしえをうたう")
 
         # ------------------ オプションエリア ------------------
         opt_frame = ttk.Frame(main_frame, padding="5 10 5 10")
